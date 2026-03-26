@@ -36,7 +36,7 @@ Example foods the model can recognize:
 * Steak
 * Salad
 * Noodles
-
+& more
 ---
 
 # ✨ Features
