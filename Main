@@ -1,0 +1,71 @@
+import gradio as gr
+from transformers import pipeline
+
+# load AI model
+classifier = pipeline("image-classification", model="nateraw/food")
+
+def predict(image):
+
+    results = classifier(image)
+
+    top5 = results[:5]
+
+    foods = []
+    scores = []
+
+    for r in top5:
+        foods.append(r["label"])
+        scores.append(float(r["score"]))
+
+    return dict(zip(foods, scores))
+
+
+css = """
+body{
+background:#0b0b0b;
+color:white;
+font-family:Arial;
+}
+
+.gradio-container{
+background:#0b0b0b;
+}
+
+#title{
+text-align:center;
+font-size:40px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+#subtitle{
+text-align:center;
+color:#bbbbbb;
+margin-bottom:20px;
+}
+
+button{
+background:linear-gradient(90deg,#ff512f,#dd2476);
+border:none;
+border-radius:8px;
+color:white;
+font-size:16px;
+}
+"""
+
+with gr.Blocks(css=css) as demo:
+
+    gr.Markdown("<div id='title'>🍜 AI Food Guesser</div>")
+    gr.Markdown("<div id='subtitle'>Upload food image to see Top 5 predictions</div>")
+
+    with gr.Row():
+
+        image = gr.Image(type="pil", label="Upload Food Image")
+
+        output = gr.Label(num_top_classes=5, label="Top Predictions")
+
+    btn = gr.Button("🔍 Analyze Food")
+
+    btn.click(predict, inputs=image, outputs=output)
+
+demo.launch(share=True)
