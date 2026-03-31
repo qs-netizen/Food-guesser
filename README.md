@@ -11,6 +11,7 @@ An **AI-powered food recognition web app** that predicts the **Top-5 possible di
 Built using **Python**, **Gradio**, and a pretrained image classification model.
 
 The app features a **modern dark interface**, **confidence bars**, and runs locally in your browser.
+**It will give you some funny results if you put a human or character in it**
 
 ---
 
